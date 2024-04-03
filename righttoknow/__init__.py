@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, jsonify
+from flask import Flask, render_template
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -13,7 +13,7 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     CORS(app)
     socketio = SocketIO(app)
-    state_instance = State()
+    state_instance = State(socketio)
 
     if FLAVOUR == "production":
         app.config.from_object('righttoknow.configs.production.ProductionConfig')
@@ -26,14 +26,25 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
     
+    @app.route("/", methods=["GET"])
+    def home():
+        return render_template("home.html")
+
+
+    @socketio.on('connect')
+    def handle_connect_request():
+        print('request made')
+
+
+    @socketio.on('stream')
+    def handle_message(data, geolocation):
+        state_instance.handle_message(data, geolocation)
+
+
     @app.route("/stop-recording", methods=['GET'])
     def update_val_file_name_for_run():
-        state_instance.update_val_file_name_for_run()
-        return jsonify({"msg:": "All OK"})
+        return state_instance.update_val_file_name_for_run()
     
 
     return app
