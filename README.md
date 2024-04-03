@@ -11,7 +11,8 @@ pip3 install -r requirements.txt
 ## How to Run the Project
 ### Development
 1. Create a copy of `.env.development` as `.env`. Fill in the right values.
-2. Run the Flask application.
+2. Change the dummy Google API Key
+3. Run the Flask application.
 ```shell
 export $(cat .env | xargs) && FLAVOUR=development flask --app righttoknow run
 ```
