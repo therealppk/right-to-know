@@ -11,7 +11,7 @@ Some cases of excessive force or misinformed citizens can be avoided by helping 
 ## What it does
 The app listens to the conversation between the citizen and the law enforcement officer. Based on the ongoing conversation, the app constantly suggests the person with prompts, telling them the possible ways to handle the situation. The user's location is also used to review laws pertinent to the particular state and county.
 
-## How I built it
+## How we built it
 We created a simple Python Flask application. The connection between the backend and frontend was handled by using SocketIO. The audio was transcribed and sent to Gemini API with the required supporting prompts, and the suggestions were shown to the user.
 
 ## Development Setup
